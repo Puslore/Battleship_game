@@ -1,25 +1,33 @@
-// Coords.h
 #ifndef COORDS_H
-#define COORDS_h
+#define COORDS_H
 
 #include <string>
 
 
 struct Coords
 {
-    int x;
-    std::string y;
+    int x;              // Строка
+    std::string y;      // Столбец
+    bool damaged = false;
     
-    // Конструктор структуры, хранящей координаты корабля
-    Coords(int x, std::string y) : x(x), y(y) {}
+    // Конструкторы
+    Coords();
+    Coords(int x, const std::string& y);
     
-    // Операторы сравнения
-    bool operator==(const Coords& other) const {
-        return x == other.x && y == other.y;
+    // Методы для работы с повреждениями
+    bool isDamaged() const
+    {
+        return this->damaged;
+    }
+    void setDamaged(bool value)
+    {
+        this->damaged = value;
     }
     
-    bool operator!=(const Coords& other) const {
-        return !(*this == other);
+    // Перегрузка оператора сравнения для проверки совпадения координат
+    bool Coords::operator==(const Coords& other) const
+    {
+        return (this->x == other.x && this->y == other.y);
     }
 };
 

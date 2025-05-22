@@ -12,11 +12,14 @@ class Ship
         // тип корабля, координаты и состояние
         std::string shipType;
         std::vector<Coords> coords;
-        bool isAlive;
+        bool isAlive = true;
         
     public:
         // Конструкторы и методы для работы с кораблем
+        Ship();
+        Ship(const std::string& type, const std::vector<Coords>& coordinates);
         std::string getType() const;
+        void setAlive(bool alive); // Установка статуса жив/мертв у корабля
         bool checkHit(Coords& coords);  // Проверка попадания
         bool isDestroyed() const;     // Проверка, уничтожен ли корабль
 };
