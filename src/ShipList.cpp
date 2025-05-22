@@ -15,10 +15,7 @@ void ShipList::removeShip(const Coords& position)
 {
     for (int i = 0; i < this->ships.size(); i++)
     {
-        // Создаем копию корабля для проверки без изменения оригинала
-        Ship tempShip = this->ships[i];
-        Coords tempCoords = position;
-        if (tempShip.checkHit(tempCoords))
+        if (this->ships[i].containsCoords(position))
         {
             this->ships.erase(this->ships.begin() + i);
             return;
@@ -33,7 +30,7 @@ void ShipList::markAsDestroyed(Ship ship)
     {
         if (this->ships[i].getType() == ship.getType())
         {
-            this->ships[i].setAlive(false); // Временное решение - заменяем корабль
+            this->ships[i].setAlive(false);
             return;
         }
     }
@@ -52,14 +49,12 @@ bool ShipList::isAnyShipAt(const Coords& position) const
 {
     for (int i = 0; i < this->ships.size(); i++)
     {
-        // Создаем копию корабля для проверки без изменения оригинала
-        Ship tempShip = this->ships[i];
-        Coords tempCoords = position;
-        if (tempShip.checkHit(tempCoords))
+        if (this->ships[i].containsCoords(position))
         {
             return true;
         }
     }
+    
     return false;
 }
 
@@ -70,7 +65,7 @@ bool ShipList::isHit(const Coords& attackPosition) const
 }
 
 
-// Подсчет статистики
+// Подсчет количества живых кораблей
 int ShipList::countAliveShips() const
 {
     int count = 0;

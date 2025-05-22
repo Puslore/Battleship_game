@@ -21,6 +21,7 @@ class Ship
         std::string getType() const;
         void setAlive(bool alive); // Установка статуса жив/мертв у корабля
         bool checkHit(Coords& coords);  // Проверка попадания
+        bool containsCoords(const Coords& coords) const; // Проверка координат
         bool isDestroyed() const;     // Проверка, уничтожен ли корабль
 };
 

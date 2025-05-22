@@ -39,6 +39,21 @@ bool Ship::checkHit(Coords& hitCoords)
     return false;
 }
 
+
+bool Ship::containsCoords(const Coords& coords) const
+{
+    for (int i = 0; i < this->coords.size(); i++)
+    {
+        if (this->coords[i] == coords)
+        {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+
 bool Ship::isDestroyed() const
 {
     return !this->isAlive;
@@ -58,6 +73,7 @@ Ship::Ship(const std::string& type, const std::vector<Coords>& coordinates)
     this->coords = coordinates;
     this->isAlive = true;
 }
+
 
 // Конструктор по умолчанию
 Ship::Ship()
