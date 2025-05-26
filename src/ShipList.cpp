@@ -1,4 +1,5 @@
-#include "ShipList.h"
+#include "../headers/ShipList.h"
+#include <iostream>
 
 
 ShipList::ShipList() {}
@@ -11,14 +12,42 @@ void ShipList::addShip(Ship ship)
 }
 
 
-void ShipList::removeShip(const Coords& position)
+void ShipList::removeShip(Ship ship)
 {
     for (int i = 0; i < this->ships.size(); i++)
     {
-        if (this->ships[i].containsCoords(position))
+        // Корабли сравниваются по типу(std::string)
+        // и по координатам(std::vector<Coords>)
+        std::vector<Coords> currentShipCoords = this->ships[i].getShipCoords();
+        std::vector<Coords> targetShipCoords = ship.getShipCoords();
+        
+        if (currentShipCoords.size() == targetShipCoords.size())
         {
-            this->ships.erase(this->ships.begin() + i);
-            return;
+            bool coordsMatch = true;
+            for (int j = 0; j < currentShipCoords.size(); j++)
+            {
+                bool found = false;
+                for (int k = 0; k < targetShipCoords.size(); k++)
+                {
+                    if (currentShipCoords[j] == targetShipCoords[k])
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    coordsMatch = false;
+                    break;
+                }
+            }
+            
+            if (coordsMatch)
+            {
+                this->ships.erase(this->ships.begin() + i);
+                return;
+            }
         }
     }
 }
@@ -30,14 +59,14 @@ void ShipList::markAsDestroyed(Ship ship)
     {
         if (this->ships[i].getType() == ship.getType())
         {
-            this->ships[i].setAlive(false);
+            this->ships[i].setAliveStatus(false);
             return;
         }
     }
 }
 
 
-// Метод доступа к кораблям
+// Метод доступа к вектору кораблей
 std::vector<Ship> ShipList::getAllShips() const
 {
     return this->ships;
@@ -59,24 +88,53 @@ bool ShipList::isAnyShipAt(const Coords& position) const
 }
 
 
-bool ShipList::isHit(const Coords& attackPosition) const
+bool ShipList::isHit(const Coords& attackPosition)
 {
-    return isAnyShipAt(attackPosition);
+    for (int i = 0; i < this->ships.size(); i++)
+    {
+        if (this->ships[i].containsCoords(attackPosition))
+        {
+            Coords attackCoords = attackPosition;
+            bool hit = this->ships[i].checkHit(attackCoords);
+            
+            if (hit && this->ships[i].isDestroyed())
+            {
+                std::cout << "КОРАБЛЬ ПОТОПЛЕН!" << std::endl;
+            }
+            
+            return hit;
+        }
+    }
+    return false;
 }
 
 
-// Подсчет количества живых кораблей
-int ShipList::countAliveShips() const
+
+// Подсчет статистики
+int ShipList::countAliveShips(int type) const
 {
     int count = 0;
     
-    for (int i = 0; i < this->ships.size(); i++)
-    {
-        if (!this->ships[i].isDestroyed())
+    if (type == 0)
+    {   for (int i = 0; i < this->ships.size(); i++)
         {
-            count++;
+            if (!this->ships[i].isDestroyed())
+            {
+                count++;
+            }
         }
     }
-    
+
+    else
+    {
+        for (int i = 0; i < this->ships.size(); i++)
+        {
+            if (!this->ships[i].isDestroyed() && this->ships[i].getType() == type)
+            {
+                count++;
+            }
+        }
+    }
+
     return count;
 }

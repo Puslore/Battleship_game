@@ -1,17 +1,23 @@
-#include "Ship.h"
+#include "../headers/Ship.h"
 
 
-std::string Ship::getType() const
+std::vector<Coords> Ship::getShipCoords() const
+{
+    return this->coords;
+}
+
+
+int Ship::getType() const
 {
     return this->shipType;
 }
 
 
-bool Ship::checkHit(Coords& hitCoords)
+bool Ship::checkHit(Coords& coords)
 {
     for (int i = 0; i < this->coords.size(); i++)
     {
-        if (this->coords[i] == hitCoords)
+        if (this->coords[i] == coords)
         {
             // Пометка координаты как поврежденной при попадании
             this->coords[i].setDamaged(true);
@@ -60,24 +66,24 @@ bool Ship::isDestroyed() const
 }
 
 
-void Ship::setAlive(bool alive)
+void Ship::setAliveStatus(bool status)
 {
-    this->isAlive = alive;
+    this->isAlive = status;
 }
 
 
 // Конструктор для создания корабля
-Ship::Ship(const std::string& type, const std::vector<Coords>& coordinates)
+Ship::Ship(const int type, const std::vector<Coords>& coordinates, bool isAlive)
 {
     this->shipType = type;
     this->coords = coordinates;
-    this->isAlive = true;
+    this->isAlive = isAlive;
 }
 
 
 // Конструктор по умолчанию
 Ship::Ship()
 {
-    this->shipType = "Unknown";
+    this->shipType = 0;
     this->isAlive = false;
 }

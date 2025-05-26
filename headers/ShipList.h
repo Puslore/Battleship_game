@@ -4,32 +4,32 @@
 #include <string>
 #include <vector>
 
-#include "Ship.h"
+#include "./Ship.h"
 
 
 class ShipList
 {
     private:
-        std::vector<Ship> ships;  // Коллекция кораблей
+        std::vector<Ship> ships;  // Вектор кораблей
     
     public:
-        // Конструкторы
         ShipList();
         
         // Методы для управления кораблями
         void addShip(Ship ship);
-        void removeShip(const Coords& position);
+        // void removeShip(const Coords& coords);
+        void removeShip(Ship ship);
         void markAsDestroyed(Ship ship);
         
-        // Методы доступа к кораблям
+        // Метод доступа к вектору кораблей
         std::vector<Ship> getAllShips() const;
         
         // Методы для получения статусов
-        bool isAnyShipAt(const Coords& position) const;
-        bool isHit(const Coords& attackPosition) const;
+        bool isAnyShipAt(const Coords& coords) const;
+        bool isHit(const Coords& coords);
         
         // Подсчет статистики
-        int countAliveShips() const;
+        int countAliveShips(int type=0) const;
 };
 
 

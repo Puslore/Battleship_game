@@ -18,16 +18,16 @@ struct Coords
     // Конструкторы
     Coords()
     {
-        this->x = 0;
-        this->y = "А";
+        this->x = 1;
+        this->y = "A";
         this->damaged = false;
     }
     
-    Coords(int x, const std::string& y)
+    Coords(int x, const std::string& y, bool damaged=false)
     {
         this->x = x;
         this->y = y;
-        this->damaged = false;
+        this->damaged = damaged;
     }
     
     // Методы для работы с повреждениями
