@@ -176,14 +176,12 @@ void GameField::printGameField(bool hideShips) const
     std::cout << "Поле игрока: " << this->playerName << std::endl;
     std::cout << "  ";
     
-    // Печатаем заголовок с буквами столбцов
     for (int i = 0; i < this->COLUMNS.size(); i++)
     {
         std::cout << this->COLUMNS[i] << " ";
     }
     std::cout << std::endl;
     
-    // Печатаем строки поля
     for (int row = 0; row < this->ROWS.size(); row++)
     {
         std::cout << this->ROWS[row];
@@ -194,7 +192,6 @@ void GameField::printGameField(bool hideShips) const
         
         for (int col = 0; col < this->COLUMNS.size(); col++)
         {
-            // Находим символ для данной позиции
             std::string displaySymbol = "~";
             for (int i = 0; i < this->cells.size(); i++)
             {
@@ -206,8 +203,7 @@ void GameField::printGameField(bool hideShips) const
                 }
             }
             
-            // Скрываем корабли если нужно
-            if (hideShips && displaySymbol == "S")
+            if (hideShips && displaySymbol == "▢")
             {
                 displaySymbol = "~";
             }
