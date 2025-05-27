@@ -17,5 +17,4 @@ struct Cell
 };
 
 
-
 #endif

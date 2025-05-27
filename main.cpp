@@ -20,7 +20,10 @@ void writeToFile(const string& text);
 
 // Подсказка игроку
 void giveHelp()
-{cout << "\n----------ПОДСКАЗКА" << endl;}
+{
+    cout << "\n----------ПОДСКАЗКА\n" << endl;
+    cout << "В связи с нереализованной стратегией игры, подсказки еще не доступны\n";
+}
 
 
 // Очистка файла
@@ -339,11 +342,11 @@ Coords getPlayerShot()
     string input;
     while (true)
     {
-        cout << "Введите координаты для стрельбы (A1, D8 и т.д.) или 'ПОМОЩЬ': ";
+        cout << "Введите координаты для стрельбы (A1, D8 и т.д.) или 'ПОДСКАЗКА': ";
         cin >> input;
         
         // Проверка на команду помощи
-        if (input == "ПОМОЩЬ" || input == "помощь" || input == "HELP" || input == "help")
+        if (input == "ПОДСКАЗКА" || input == "подсказка" || input == "HELP" || input == "help")
         {
             giveHelp();
             continue;
@@ -411,7 +414,12 @@ void startBattle(GameField& player1, GameField& player2, bool isPlayer1Computer,
         
         Coords target;
         if (isCurrentPlayerComputer)    
-            target = generateComputerShot(opponent);    
+            {
+                target = generateComputerShot(opponent);
+
+                cout << "\nДля продолжения нажмит на Enter";
+                cin.get();
+            }
         else target = getPlayerShot();   
         
         cout << "\nВыстрел по " << target.y << target.x << ": ";
@@ -457,8 +465,7 @@ void startBattle(GameField& player1, GameField& player2, bool isPlayer1Computer,
         // Пауза между ходами разных игроков
         if (!hit && !isCurrentPlayerComputer)
         {
-            cout << "\nНажмите Enter для передачи хода...";
-            cin.ignore();
+            cout << "\nНажмите на Enter для передачи хода";
             cin.get();
         }
     }
@@ -475,6 +482,8 @@ int main()
     bool isPlayer2Computer = false;
     
     cout << "Игра 'Морской бой'" << endl << endl;
+
+    cout << "Для включения демонстрационного режима нажмите Enter два раза\n";
     
     // Ввод имени первого игрока
     cout << "Введите имя первого игрока" << endl;
@@ -496,6 +505,16 @@ int main()
         isPlayer2Computer = true;
     }
 
+    // Демонстрационный режим игры компьютер против себя
+    if (isPlayer1Computer && isPlayer2Computer)
+        {
+            cout << "Включен демонстрационный режим игры\n";
+            cout << "Компьютер будет играть против самого себя\n";
+            cout << "Все выстрелы генерируюстя случайно и не следуют какой-то стратегии\n";
+            cout << "Для начала демонстрационного режима нажмите на Enter:";
+            cin.get();
+        }
+
     // Создание игроков
     GameField player1(name1);
     GameField player2(name2);
@@ -511,13 +530,23 @@ int main()
         cout << "Первым размещает корабли игрок 1 - " << player1.getName() << endl;
         
         if (isPlayer1Computer)
-            computerShipPlacement(player1);
+            {
+                computerShipPlacement(player1);
+                cout << "Компьютер 1 закончил размещение кораблей\n";
+                cout << "Ознакомьтесь и нажмите на Enter для продолжения";
+                cin.get();
+            }
         else manualShipPlacement(player1);
         
         cout << endl << "Теперь размещает корабли игрок 2 - " << player2.getName() << endl;
         
         if (isPlayer2Computer)
-            computerShipPlacement(player2);
+            {
+                computerShipPlacement(player2);
+                cout << "Компьютер 2 закончил размещение кораблей\n";
+                cout << "Ознакомьтесь и нажмите на Enter для продолжения";
+                cin.get();
+            }
         else manualShipPlacement(player2);
     }
     else
