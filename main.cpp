@@ -354,7 +354,31 @@ Coords getPlayerShot()
         {
             string letter = input.substr(0, 1);
             int x = stoi(input.substr(1));
-            if (x >= 1 && x <= 10) return Coords(x, letter);
+            if (x >= 1 && x <= 10)
+            {
+                bool validLetter = false;
+                string validLetters[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+                for (int i = 0; i < 10; i++)
+                {
+                    if (letter == validLetters[i])
+                    {
+                        validLetter = true;
+                        break;
+                    }
+                }
+                
+                if (validLetter)
+                    return Coords(x, letter);
+                else
+                {
+                    cout << "Неверная буква! Используйте A-J." << endl;
+                    continue;
+                }
+            }else
+            {
+                cout << "Номер строки должен быть от 1 до 10!" << endl;
+                continue;
+            }
         }
         
         cout << "Неверный формат! Введите координаты типа A1, D8 и т.д." << endl;
